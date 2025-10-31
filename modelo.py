@@ -6,23 +6,9 @@ DESCRIPCIÓN: Modelo. Maneja la lógica de negocio
 NOTA: Lógica de negocio son las reglas y procedimientos que definen cómo opera nuestro juego
 """
 
-#---------------------------------IMPORTS
+#----------------------IMPORTS
 
 
 
 
-
-
-#---------------------------------FUNCIONES
-
-
-def main():
-    pass
-
-
-
-
-#---------------------------------MAIN
-
-
-main()
+#----------------------FUNCIONES

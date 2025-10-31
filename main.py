@@ -7,7 +7,7 @@ DESCRIPCIÓN: Inicializa el programa
 #---------------------------------IMPORTS
 
 
-
+import controlador
 
 
 
@@ -15,12 +15,17 @@ DESCRIPCIÓN: Inicializa el programa
 
 
 def main():
-    pass
+    controlador.mostrar_tui()
 
 
 
 
 #---------------------------------MAIN
 
-
-main()
+if __name__=='__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\nPrograma interrumpido por el usuario")
+    except Exception as e:
+        print(f"Error inesperado: {e}")
