@@ -22,9 +22,11 @@ PUNTOS_GANAR = 12
 VIDAS_INICIALES = 3
 POSICION_INICIAL_PADDLE_Y = ALTO_PANTALLA / 2 - PADDLE_ALTO / 2
 POSICION_INICIAL_JUGADOR_X = 0
-POSICION_INICIAL_IA_X = ANCHO PANTALLA - PADDLE ANCHO
+POSICION_INICIAL_IA_X = ANCHO_PANTALLA - PADDLE_ANCHO
+VELOCIDAD_INICIAL_PELOTA_X = 5
+VELOCIDAD_INICIAL_PELOTA_Y = 5
 puntos = 0
-vidas = VIDAS_INCIALES
+vidas = VIDAS_INICIALES
 
 # --- Diccionario del Jugador ---
 
@@ -51,11 +53,11 @@ ia = {
 pelota = {
     "x": ANCHO_PANTALLA / 2,     # Posición X inicial (centro)
     "y": ALTO_PANTALLA / 2,      # Posición Y inicial (centro)
-    "dx": choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA]), # Velocidad y direccion en X
-    "dy": choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA]), # Velocidad y direccion en Y
+    "dx": random.choice([-VELOCIDAD_INICIAL_PELOTA_X, VELOCIDAD_INICIAL_PELOTA_X]), # Velocidad y direccion en X
+    "dy": random.choice([-VELOCIDAD_INICIAL_PELOTA_Y, VELOCIDAD_INICIAL_PELOTA_Y]), # Velocidad y direccion en Y
     "radio": 25,                 # Radio de la pelota para dibujarla y calcular colisiones
-    "vel_x": 5,                  # Velocidad en el eje X
-    "vel_y": 5                   # Velocidad en el eje Y
+    "vel_x": VELOCIDAD_INICIAL_PELOTA_X,                  # Velocidad en el eje X
+    "vel_y": VELOCIDAD_INICIAL_PELOTA_Y                   # Velocidad en el eje Y
 }
 
 #----------------------FUNCIONES
@@ -115,8 +117,8 @@ def reiniciar_paddles():
 def reiniciar_pelota():
     pelota["x"] = ANCHO_PANTALLA // 2
     pelota["y"] = ALTO_PANTALLA // 2
-    pelota["dx"] = choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA])
-    pelota["dy"] = choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA])
+    pelota["dx"] = random.choice([-VELOCIDAD_INICIAL_PELOTA_X, VELOCIDAD_INICIAL_PELOTA_X])
+    pelota["dy"] = random.choice([-VELOCIDAD_INICIAL_PELOTA_Y, VELOCIDAD_INICIAL_PELOTA_Y])
 
 def anotacion_punto(): #esta funcion se llama cuando se aumenta el puntaje del jugador
     global puntos

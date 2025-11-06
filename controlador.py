@@ -10,6 +10,7 @@ DESCRIPCIÓN: Controlador. Maneja la interacción entre el modelo y la vista
 #Conecta este módulo con el módulo vista
 
 import vista
+import modelo
 
 
 #---------------------------------FUNCIONES
