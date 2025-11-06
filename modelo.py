@@ -20,14 +20,17 @@ PADDLE_ANCHO = 25
 PADDLE_ALTO = 76
 PUNTOS_GANAR = 12
 VIDAS_INICIALES = 3
-PUNTOS = 0
-VIDAS = VIDAS_INCIALES
+POSICION_INICIAL_PADDLE_Y = ALTO_PANTALLA / 2 - PADDLE_ALTO / 2
+POSICION_INICIAL_JUGADOR_X = 0
+POSICION_INICIAL_IA_X = ANCHO PANTALLA - PADDLE ANCHO
+puntos = 0
+vidas = VIDAS_INCIALES
 
 # --- Diccionario del Jugador ---
 
 jugador = {
-    "x": 0,
-    "y": ALTO_PANTALLA / 2 - PADDLE_ALTO / 2, # Posición Y centrada
+    "x": POSICION_INICIAL_JUGADOR_X,
+    "y": POSICION_INICIAL_PADDLE_Y, # Posición Y centrada
     "ancho": PADDLE_ANCHO,
     "alto": PADDLE_ALTO,
     "velocidad": 8
@@ -36,8 +39,8 @@ jugador = {
 # --- Diccionario de la IA ---
 
 ia = {
-    "x": ANCHO_PANTALLA - PADDLE_ANCHO,
-    "y": ALTO_PANTALLA / 2 - PADDLE_ALTO / 2,
+    "x": POSICION_INICIAL_IA_X,
+    "y": POSICION_INICIAL_PADDLE_Y,
     "ancho": PADDLE_ANCHO,
     "alto": PADDLE_ALTO,
     "velocidad": 6
@@ -82,10 +85,30 @@ def movimiento_jugador():
         jugador["y"] = ALTO_PANTALLA - jugador["alto"]
 
 def movimiento_pelota():
-    pass
+    pelota["x"] += pelota["vel_x"]
+    pelota["y"] += pelota["vel_y"]
 
 def colision_pelota_pisos():
-    pass
+    # 1. Colisión con el Techo (Borde Superior)
+    # Si la parte superior de la pelota (centro - radio) toca o cruza 0
+    if pelota["y"] - pelota["radio"] < 0:
+        # Reposicionar la pelota para que no se pegue al borde
+        pelota["y"] = pelota["radio"] 
+        # Invertir la dirección vertical
+        pelota["vel_y"] *= -1 
+
+    # 2. Colisión con el Piso (Borde Inferior)
+    # Si la parte inferior de la pelota (centro + radio) toca o cruza la altura máxima
+    elif pelota["y"] + pelota["radio"] > ALTO_PANTALLA:
+        # Reposicionar la pelota
+        pelota["y"] = ALTO_PANTALLA - pelota["radio"]
+        # Invertir la dirección vertical
+        pelota["vel_y"] *= -1
+
+def reiniciar_paddles():
+    jugador["x"] = POSICION_INICIAL_JUGADOR_X
+    ia["x"] = POSICION_INICIAL_IA_X
+    jugador["y"] = ia["y"] = POSICION_INICIAL_PADDLE_Y 
 
 def reiniciar_pelota():
     pelota["x"] = ANCHO_PANTALLA // 2
@@ -97,11 +120,12 @@ def anotacion_punto(): #esta funcion se llama cuando se aumenta el puntaje del j
     global puntos
     puntos += 1
     reiniciar_pelota()
+    reiniciar_paddles()
     if puntos >= PUNTOS_GANAR:
         return ganar_ronda()
 
 def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
-    reiniciar_pelota()
+   # reiniciar_pelota()
     return "ronda ganada!"
 
 
@@ -109,35 +133,34 @@ def colision_pelota_paleta(): #Detecta colisiones entre la pelota y las paletas
     
     # --- Jugador (izquierda) ---
     if (
-        pelota["x"] - RADIO_PELOTA <= jugador["x"] + jugador["ancho"] and
+        pelota["x"] - pelota["radio"] <= jugador["x"] + jugador["ancho"] and
         jugador["y"] < pelota["y"] < jugador["y"] + jugador["alto"]
     ):
         pelota["dx"] *= -1
-        pelota["x"] = jugador["x"] + jugador["ancho"] + radio  # evita que se meta
+        pelota["x"] = jugador["x"] + jugador["ancho"] + pelota["radio"]  # evita que se meta
 
     # --- IA (derecha) ---
     if (
-        pelota["x"] + radio >= ia["x"] and
-        enemigo["y"] < pelota["y"] < ia["y"] + ia["alto"]
+        pelota["x"] + pelota["radio"] >= ia["x"] and
+        ia["y"] < pelota["y"] < ia["y"] + ia["alto"]
     ):
         pelota["dx"] *= -1
-        pelota["x"] = ia["x"] - radio
+        pelota["x"] = ia["x"] - pelota["radio"]
 
 
 def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores iniciales
-    global PUNTOS, VIDAS
-    PUNTOS = 0
-    VIDAS = VIDAS_INICIALES
+    global puntos, vidas
+    puntos = 0
+    vidas = VIDAS_INICIALES
     reiniciar_pelota()
+    reiniciar_paddles()
 
 
 def ganar_partida(): #Se llama cuando el jugador gana todas las rondas o cumple la condición final del juego.
-    reiniciar_pelota()
     reiniciar_partida()
     return "Partida ganada! Felicidades."
 
 
 def perder_partida(): #Se llama cuando el jugador pierde todas las rondas
-    reiniciar_pelota()
     reiniciar_partida()
     return "Partida perdida! Mala suerte."
