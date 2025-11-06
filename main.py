@@ -10,14 +10,12 @@ DESCRIPCIÓN: Inicializa el programa
 import controlador
 
 
-
 #---------------------------------FUNCIONES
 
 
 def main():
     controlador.mostrar_tui()
-
-
+    
 
 
 #---------------------------------MAIN

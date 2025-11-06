@@ -29,5 +29,7 @@ def mostrar_tui():
 
         if opcion_principal == 'q':
             exit()
+        else:
+         vista.mostrar_pantalla_juego()
 
 
