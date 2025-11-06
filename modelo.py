@@ -160,11 +160,3 @@ def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores inici
     reiniciar_paddles()
 
 
-def ganar_partida(): #Se llama cuando el jugador gana todas las rondas o cumple la condición final del juego.
-    reiniciar_partida()
-    return "Partida ganada! Felicidades."
-
-
-def perder_partida(): #Se llama cuando el jugador pierde todas las rondas
-    reiniciar_partida()
-    return "Partida perdida! Mala suerte."
