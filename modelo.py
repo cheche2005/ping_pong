@@ -87,17 +87,57 @@ def movimiento_pelota():
 def colision_pelota_pisos():
     pass
 
-def anotacion_punto():
-    pass
+def reiniciar_pelota():
+    pelota["x"] = ANCHO_PANTALLA // 2
+    pelota["y"] = ALTO_PANTALLA // 2
+    pelota["dx"] = choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA])
+    pelota["dy"] = choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA])
 
-def ganar_ronda():
-    pass
+def anotacion_punto(): #esta funcion se llama cuando se aumenta el puntaje del jugaor al anotar un punto
+    global puntos
+    puntos += 1
+    reiniciar_pelota()
+    if puntos >= PUNTOS_GANAR:
+        return ganar_ronda()
 
-def ganar_partida():
-    pass
+def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
+    reiniciar_pelota()
+    return "ronda ganada!"
 
-def colision_pelota_paleta():
-    pass
 
-def reiniciar_partida():
-    pass
+def colision_pelota_paleta(): #Detecta colisiones entre la pelota y las paletas
+    
+    # --- Jugador (izquierda) ---
+    if (
+        pelota["x"] - RADIO_PELOTA <= jugador["x"] + jugador["ancho"] and
+        jugador["y"] < pelota["y"] < jugador["y"] + jugador["alto"]
+    ):
+        pelota["dx"] *= -1
+        pelota["x"] = jugador["x"] + jugador["ancho"] + radio  # evita que se meta
+
+    # --- IA (derecha) ---
+    if (
+        pelota["x"] + radio >= ia["x"] and
+        enemigo["y"] < pelota["y"] < ia["y"] + ia["alto"]
+    ):
+        pelota["dx"] *= -1
+        pelota["x"] = ia["x"] - radio
+
+
+def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores iniciales
+    global PUNTOS, VIDAS
+    PUNTOS = 0
+    VIDAS = VIDAS_INICIALES
+    reiniciar_pelota()
+
+
+def ganar_partida(): #Se llama cuando el jugador gana todas las rondas o cumple la condición final del juego.
+    reiniciar_pelota()
+    reiniciar_partida()
+    return "Partida ganada! Felicidades."
+
+
+def perder_partida(): #Se llama cuando el jugador pierde todas las rondas
+    reiniciar_pelota()
+    reiniciar_partida()
+    return "Partida perdida! Mala suerte."
