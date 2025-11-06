@@ -51,6 +51,8 @@ ia = {
 pelota = {
     "x": ANCHO_PANTALLA / 2,     # Posición X inicial (centro)
     "y": ALTO_PANTALLA / 2,      # Posición Y inicial (centro)
+    "dx": choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA]), # Velocidad y direccion en X
+    "dy": choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA]), # Velocidad y direccion en Y
     "radio": 25,                 # Radio de la pelota para dibujarla y calcular colisiones
     "vel_x": 5,                  # Velocidad en el eje X
     "vel_y": 5                   # Velocidad en el eje Y
@@ -116,7 +118,7 @@ def reiniciar_pelota():
     pelota["dx"] = choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA])
     pelota["dy"] = choice([-VELOCIDAD_PELOTA, VELOCIDAD_PELOTA])
 
-def anotacion_punto(): #esta funcion se llama cuando se aumenta el puntaje del jugaor al anotar un punto
+def anotacion_punto(): #esta funcion se llama cuando se aumenta el puntaje del jugador
     global puntos
     puntos += 1
     reiniciar_pelota()
