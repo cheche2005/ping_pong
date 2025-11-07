@@ -58,9 +58,10 @@ def mostrar_arcos(x, y, radio):
     raylib.DrawCircleLines(x,int(y/2), radio, raylib.WHITE)
 
 """Muestra las paletas, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana, base_rectángulo es la base del rectángulo y altura_rectángulo es la altura del rectángulo"""  
-def mostrar_paletas(x, y , base_rectángulo, altura_rectángulo):
-    raylib.DrawRectangle(0,int((y/2) - (altura_rectángulo/2)), base_rectángulo, altura_rectángulo, raylib.WHITE)  
-    raylib.DrawRectangle(x,int((y/2) - (altura_rectángulo/2)), base_rectángulo, altura_rectángulo, raylib.WHITE)  
+def mostrar_paletas(x_jugador, y_jugador, ancho_jugador, alto_jugador, x_ia, y_ia, ancho_ia, alto_ia):
+    raylib.DrawRectangle(int(x_jugador), int(y_jugador), ancho_jugador, alto_jugador, raylib.WHITE)
+    raylib.DrawRectangle(int(x_ia), int(y_ia), ancho_ia, alto_ia, raylib.WHITE)
+
 
 """Muestra el círculo central, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana, y el radio-circulo_central es el rádio de dicho círculo"""
 def mostrar_circulo_central(x, y, radio_circulo_central):
@@ -68,7 +69,7 @@ def mostrar_circulo_central(x, y, radio_circulo_central):
 
 """Muestra la pelota en pantalla, hay que pasarle: x es el ancho de la ventana, y es el alto de la ventana y radio_pelota es el radio de la pelota"""
 def mostrar_pelota(x, y, radio_pelota):
-    raylib.DrawCircle(int(x/2),int(y/2), radio_pelota, raylib.BLACK) 
+    raylib.DrawCircle(int(x), int(y), radio_pelota, raylib.BLACK)
 
 """Muestra el botón del menú en el juego, solo hay que pasarle el ancho de la ventana"""
 def mostrar_boton_menu(ancho):
@@ -111,5 +112,5 @@ def mostrar_puntaje(puntos_ia, puntos_jugador):
 
 #Muestra los sets ganados por cada jugador
 def mostrar_sets(sets_ia, sets_jugador):
-    raylib.DrawText(sets_ia.encode(), 205, 70, 40, raylib.BLACK)    
-    raylib.DrawText(sets_jugador.encode(), 990, 70, 40, raylib.BLACK) 
+    raylib.DrawText(str(sets_ia).encode(), 205, 70, 40, raylib.BLACK)    
+    raylib.DrawText(str(sets_jugador).encode(), 990, 70, 40, raylib.BLACK) 
