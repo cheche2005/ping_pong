@@ -100,5 +100,5 @@ def mostrar_puntaje(puntos_ia, puntos_jugador):
 
 #Muestra los sets ganados por cada jugador
 def mostrar_sets(sets_ia, sets_jugador):
-    raylib.DrawText(sets_ia.encode(), 205, 70, 40, raylib.BLACK)    
-    raylib.DrawText(sets_jugador.encode(), 990, 70, 40, raylib.BLACK) 
+    raylib.DrawText(str(sets_ia).encode(), 205, 70, 40, raylib.BLACK)    
+    raylib.DrawText(str(sets_jugador).encode(), 990, 70, 40, raylib.BLACK) 

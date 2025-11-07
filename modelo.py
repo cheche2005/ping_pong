@@ -19,8 +19,8 @@ ALTO_PANTALLA = 700
 PADDLE_ANCHO = 25
 PADDLE_ALTO = 76
 PUNTOS_GANAR = 12
-VIDAS_INICIALES = 3
-VIDAS_INICIALES_IA = 3
+VIDAS_INICIALES = 2
+VIDAS_INICIALES_IA = 2
 POSICION_INICIAL_PADDLE_Y = ALTO_PANTALLA / 2 - PADDLE_ALTO / 2
 POSICION_INICIAL_JUGADOR_X = 0
 POSICION_INICIAL_IA_X = ANCHO_PANTALLA - PADDLE_ANCHO
@@ -151,10 +151,15 @@ def anotacion_punto_ia():
         if puntos_ia >= PUNTOS_GANAR:
             return perder_ronda()
 
+def reiniciar_puntos():
+    global puntos_ia, puntos_jugador
+    puntos_ia = puntos_jugador = 0
+
 def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
     global vidas_ia, sets_ia
     vidas_ia -= 1
     sets_ia += 1
+    reiniciar_puntos()
     if vidas_ia <= 0:
         return "Has ganado la partida"
 
@@ -162,6 +167,7 @@ def perder_ronda(): #Esta funcion es llamada cuando un jugador pierde una ronda
     global vidas_jugador, sets_jugador
     vidas_jugador -= 1
     sets_jugador += 1
+    reiniciar_puntos()
     if vidas_jugador <= 0:
         return "Has perdido la partida"
 
@@ -188,8 +194,7 @@ def colision_pelota_paleta(): #Detecta colisiones entre la pelota y las paletas
 
 def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores iniciales
     global puntos_jugador, puntos_ia,  vidas_jugador, vidas_ia
-    puntos_jugador = 0
-    puntos_ia = 0
     vidas_jugador = vidas_ia = VIDAS_INICIALES
     reiniciar_pelota()
     reiniciar_paddles()
+    reiniciar_puntos()

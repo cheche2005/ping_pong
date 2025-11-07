@@ -56,6 +56,8 @@ def dibujar_elementos_controlador():
    # vista.marco_menu(modelo.ANCHO_PANTALLA)
    # vista.titulo_menu_juego(modelo.ANCHO_PANTALLA)
    # vista.opciones_menu_juego(["(h) hola", "(p) adios"], modelo.ANCHO_PANTALLA)
+    vista.mostrar_puntaje(modelo.puntos_ia, modelo.puntos_jugador)
+    vista.mostrar_sets(modelo.sets_ia, modelo.sets_jugador)
     
     # Pelota en posición real
     vista.mostrar_pelota(modelo.pelota["x"], modelo.pelota["y"], modelo.pelota["radio"])
