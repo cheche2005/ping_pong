@@ -79,9 +79,9 @@ def movimiento_ia():
 
 def movimiento_jugador():
      # 1. Detectar Entrada
-    if raylib.is_key_down(rl.KEY_UP):
+    if raylib.is_key_down(raylib.KEY_UP):
         jugador["y"] -= jugador["velocidad"]
-    elif raylib.is_key_down(rl.KEY_DOWN):
+    elif raylib.is_key_down(raylib.KEY_DOWN):
         jugador["y"] += jugador["velocidad"]
 
     # 2. Restringir (Clamp) el movimiento a los límites verticales
@@ -181,3 +181,10 @@ def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores inici
     reiniciar_paddles()
 
 
+"""
+FECHA: 2025-10-31
+AUTOR(ES): José Prado, Daniel Caraballo y Angel Linares.
+DESCRIPCIÓN: Modelo. Maneja la lógica de negocio
+
+NOTA: Lógica de negocio son las reglas y procedimientos que definen cómo opera nuestro juego
+"""
