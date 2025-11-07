@@ -20,13 +20,16 @@ PADDLE_ANCHO = 25
 PADDLE_ALTO = 76
 PUNTOS_GANAR = 12
 VIDAS_INICIALES = 3
+VIDAS_INICIALES_IA = 3
 POSICION_INICIAL_PADDLE_Y = ALTO_PANTALLA / 2 - PADDLE_ALTO / 2
 POSICION_INICIAL_JUGADOR_X = 0
 POSICION_INICIAL_IA_X = ANCHO_PANTALLA - PADDLE_ANCHO
 VELOCIDAD_INICIAL_PELOTA_X = 5
 VELOCIDAD_INICIAL_PELOTA_Y = 5
-puntos = 0
-vidas = VIDAS_INICIALES
+puntos_jugador = 0
+puntos_ia = 0
+vidas_jugador = VIDAS_INICIALES
+vidas_ia = VIDAS_INICIALES_IA
 
 # --- Diccionario del Jugador ---
 
@@ -120,18 +123,35 @@ def reiniciar_pelota():
     pelota["dx"] = random.choice([-VELOCIDAD_INICIAL_PELOTA_X, VELOCIDAD_INICIAL_PELOTA_X])
     pelota["dy"] = random.choice([-VELOCIDAD_INICIAL_PELOTA_Y, VELOCIDAD_INICIAL_PELOTA_Y])
 
-def anotacion_punto(): #esta funcion se llama cuando se aumenta el puntaje del jugador
-    global puntos
-    puntos += 1
-    reiniciar_pelota()
-    reiniciar_paddles()
-    if puntos >= PUNTOS_GANAR:
-        return ganar_ronda()
+def anotacion_punto_jugador(): # Esta funcion se llama cuando se aumenta el puntaje del jugador
+    if pelota["x"] < 0:
+        global puntos_jugador
+        puntos_jugador += 1
+        reiniciar_pelota()
+        reiniciar_paddles()
+        if puntos_jugador >= PUNTOS_GANAR:
+            return ganar_ronda()
+
+def anotacion_punto_ia():
+    if modelo.pelota["x"] > ANCHO_PANTALLA:
+        global puntos_ia
+        puntos_ia += 1
+        reiniciar_pelota()
+        reiniciar_paddles()
+        if puntos_ia >= PUNTOS_GANAR
+            return perder_ronda()
 
 def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
-   # reiniciar_pelota()
-    return "ronda ganada!"
+    global vidas_ia
+    vidas_ia -= 1
+    if vidas_ia <= 0:
+        return "Has ganado la partida"
 
+def perder_ronda(): #Esta funcion es llamada cuando un jugador pierde una ronda
+    global vidas_jugador
+    vidas_jugador -= 1
+    if vidas_jugador <= 0:
+        return "Has perdido la partida"
 
 def colision_pelota_paleta(): #Detecta colisiones entre la pelota y las paletas
     
@@ -153,9 +173,10 @@ def colision_pelota_paleta(): #Detecta colisiones entre la pelota y las paletas
 
 
 def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores iniciales
-    global puntos, vidas
-    puntos = 0
-    vidas = VIDAS_INICIALES
+    global puntos_jugador, puntos_ia,  vidas_jugador, vidas_ia
+    puntos_jugador = 0
+    puntos_ia = 0
+    vidas_jugador = vidas_ia = VIDAS_INICIALES
     reiniciar_pelota()
     reiniciar_paddles()
 

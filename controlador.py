@@ -20,27 +20,10 @@ def mostrar_menu_principal():
     vista.mostrar_titulo(" JUEGO DE PING PONG \n")
     opciones = [
         "1. Jugar",
-        "2. Instrucciones",
         "q. Salir"
     ]
     vista.mostrar_menu(opciones)
     return vista.pedir_opcion()
-
-
-def mostrar_instrucciones():
-    """Muestra las instrucciones del juego."""
-    vista.limpiar_pantalla()
-    print("""
-=== INSTRUCCIONES ===
-- Usa las flechas ↑ y ↓ para mover tu paleta.
-- Debes rebotar la pelota sin dejarla pasar.
-- Si la pelota pasa al lado del enemigo, ganas un punto.
-- Si la pelota pasa al tuyo, pierdes una vida.
-- Ganas la ronda al llegar a 12 puntos.
-- Tienes 3 vidas por partida.
-""")
-    input("\nPresiona ENTER para volver al menú...")
-
 
 def jugar():
     """Ejecuta una ronda completa del juego."""
@@ -53,25 +36,10 @@ def jugar():
         modelo.movimiento_pelota()
         modelo.colision_pelota_pisos()
         modelo.colision_pelota_paleta()
-
-        # Verificar si la pelota sale de la pantalla
-        if modelo.pelota["x"] < 0:
-            modelo.vidas -= 1
-            modelo.reiniciar_pelota()
-            modelo.reiniciar_paddles()
-            if modelo.vidas <= 0:
-                break
-
-        elif modelo.pelota["x"] > modelo.ANCHO_PANTALLA:
-            modelo.puntos += 1
-            modelo.reiniciar_pelota()
-            modelo.reiniciar_paddles()
-            if modelo.puntos >= modelo.PUNTOS_GANAR:
-                break
-
+"""
         # Mostrar puntuación y vidas
         raylib.DrawText(
-            f"Puntos: {modelo.puntos}".encode(),
+            f"Puntos: {modelo.punto}".encode(),
             50, 20, 25, raylib.WHITE
         )
         raylib.DrawText(
@@ -81,7 +49,7 @@ def jugar():
 
         vista.mostrar_menu_juego()
         raylib.EndDrawing()
-
+"""
         # --- CONDICIONES DE FINAL ---
         if modelo.vidas <= 0:
             mostrar_mensaje_final(" Has perdido la partida ")
@@ -107,8 +75,6 @@ def main():
 
         if opcion == "1":
             jugar()
-        elif opcion == "2":
-            mostrar_instrucciones()
         elif opcion == "q":
             vista.limpiar_pantalla()
             print("Gracias por jugar ")
