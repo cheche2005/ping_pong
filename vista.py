@@ -90,4 +90,5 @@ def opciones_menu_juego(elementos, ancho):
     for i in elementos:
       raylib.DrawText(i.encode(), int((ancho/2)-(raylib.MeasureText(i.encode(), 20)/2)),120 + 40*j, 20, raylib.WHITE)
       j = j+1
-    
+
+#    
