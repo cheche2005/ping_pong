@@ -1,6 +1,6 @@
 """
-FECHA: 2025-10-31
-AUTOR(ES): José Prado
+FECHA: 2025-11-07
+AUTOR(ES): José Prado, Daniel Caraballo y Angel Linares
 DESCRIPCIÓN: Inicializa el programa
 """
 

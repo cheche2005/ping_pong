@@ -1,6 +1,6 @@
 """
-FECHA: 2025-10-31
-AUTOR(ES): José Prado
+FECHA: 2025-11-7
+AUTOR(ES): José Prado, Daniel Caraballo, Angel Linares
 DESCRIPCIÓN: Vista. Maneja la interfaz de usuario y la presentación de datos
 """
 
@@ -11,8 +11,8 @@ import os
 import raylib
 
 
-
 #---------------------------------FUNCIONES
+
 
 # Muestra el título del TUI
 def mostrar_titulo(titulo):
@@ -30,7 +30,8 @@ def pedir_opcion():
 def limpiar_pantalla():
     os.system("clear")
 
-"""Le da dimensiones a la pantalla, hay que pasarle: Ancho de la ventana, alto de la ventana, título(ninguno), y los FPS"""
+#"""Le da dimensiones a la pantalla, hay que pasarle: Ancho de la ventana, alto de la ventana, título(ninguno), y los FPS"""
+
 def dimensionar_pantalla_juego(ancho, alto, título, fps): 
     raylib.InitWindow(ancho, alto, título)
     raylib.SetTargetFPS(fps)
@@ -48,42 +49,45 @@ def terminar_dibujo():
 def cerrar_ventana():
     raylib.CloseWindow()   
 
-"""Muestra la línea central, hay que pasarle: ancho de la ventana, alto de la ventana"""
+#"""Muestra la línea central, hay que pasarle: ancho de la ventana, alto de la ventana"""
 def mostrar_linea_central(ancho, alto):
     raylib.DrawLine(int(ancho/2),0,int(ancho/2), alto, raylib.WHITE)
 
-"""Muestra los arcos, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana y el radio es el radio del círculo"""
+#"""Muestra los arcos, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana y el radio es el radio del círculo"""
 def mostrar_arcos(x, y, radio):
     raylib.DrawCircleLines(0, int(y/2), radio, raylib.WHITE)
     raylib.DrawCircleLines(x,int(y/2), radio, raylib.WHITE)
 
-"""Muestra las paletas, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana, base_rectángulo es la base del rectángulo y altura_rectángulo es la altura del rectángulo"""  
+#"""Muestra las paletas, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana, base_rectángulo es la base del rectángulo y altura_rectángulo es la altura del rectángulo"""  
 def mostrar_paletas(x_jugador, y_jugador, ancho_jugador, alto_jugador, x_ia, y_ia, ancho_ia, alto_ia):
     raylib.DrawRectangle(int(x_jugador), int(y_jugador), ancho_jugador, alto_jugador, raylib.WHITE)
     raylib.DrawRectangle(int(x_ia), int(y_ia), ancho_ia, alto_ia, raylib.WHITE)
 
 
-"""Muestra el círculo central, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana, y el radio-circulo_central es el rádio de dicho círculo"""
+#"""Muestra el círculo central, hay que pasarle: x es el ancho de la ventana, y el alto de la ventana, y el radio-circulo_central es el rádio de dicho círculo"""
 def mostrar_circulo_central(x, y, radio_circulo_central):
     raylib.DrawCircleLines(int(x/2),int(y/2), radio_circulo_central, raylib.WHITE)
 
-"""Muestra la pelota en pantalla, hay que pasarle: x es el ancho de la ventana, y es el alto de la ventana y radio_pelota es el radio de la pelota"""
+#"""Muestra la pelota en pantalla, hay que pasarle: x es el ancho de la ventana, y es el alto de la ventana y radio_pelota es el radio de la pelota"""
 def mostrar_pelota(x, y, radio_pelota):
     raylib.DrawCircle(int(x), int(y), radio_pelota, raylib.BLACK)
 
-"""Muestra el botón del menú en el juego, solo hay que pasarle el ancho de la ventana"""
+#"""Muestra el botón del menú en el juego, solo hay que pasarle el ancho de la ventana"""
 def mostrar_boton_menu(ancho):
     raylib.DrawRectangle(555,10, 95, 40, raylib.WHITE)
     raylib.DrawRectangleLines(555,10,95, 40, raylib.BLACK)
     raylib.DrawText(b"(r) Menu", int((ancho/2)-(raylib.MeasureText(b"(r) Menu", 20)/2)), 20, 20, raylib.BLACK)
 
 #Dibuja el título del menú del juego, solo hay que pasarle el ancho de la ventana
-def titulo_menu_juego(ancho, resultado):
+def titulo_menu_juego(ancho):
     titulo = "RESULTADO DE LA PARTIDA"
-    raylib.DrawText(b"OPCIONES", int((ancho/2)-(raylib.MeasureText(b"OPCIONES",40)/2)), 30, 40, raylib.WHITE)
-    raylib.DrawText(resultado.encode(),
-                    int((ancho / 2) - raylib.MeasureText(resultado.encode(), 30) / 2),
-                    100, 30, raylib.YELLOW)
+    mensaje = "Fin de la ronda"
+    raylib.DrawText(titulo.encode(),
+                    int((ancho / 2) - raylib.MeasureText(titulo.encode(), 40) / 2),
+                    40, 40, raylib.WHITE)
+    raylib.DrawText(mensaje.encode(),
+                    int((ancho / 2) - raylib.MeasureText(mensaje.encode(), 30) / 2),
+                    85, 30, raylib.YELLOW)
 
 #Dibuja el marco del emnú del juego. solo hay que pasarle el ancho de la vengtana
 def marco_menu(ancho):

@@ -1,200 +1,164 @@
 """
-FECHA: 2025-10-31
-AUTOR(ES): José Prado, Daniel Caraballo y Angel Linares.
-DESCRIPCIÓN: Modelo. Maneja la lógica de negocio
-
-NOTA: Lógica de negocio son las reglas y procedimientos que definen cómo opera nuestro juego
+FECHA: 2025-11-07
+AUTOR(ES): José Prado, Daniel Caraballo y Ángel Linares.
+DESCRIPCIÓN: Modelo. Maneja la lógica de negocio del juego de Ping Pong
 """
-
-#----------------------IMPORTS
-
-
+#----------------------IMPORTS---------------------------
 import raylib
 import random
 
-#----------------------VARIABLES GLOBALES
+#---------------------- CONSTANTES ----------------------
+ANCHO_PANTALLA = 1200 #ESTO ES EL ANCHO DE LA PANTALLA
+ALTO_PANTALLA = 700 #EL ALTO DE LA VENTANA
+PADDLE_ANCHO = 25 #EL ANCHO DE LAS PALETAS
+PADDLE_ALTO = 76 #EL ALTO DE LAS PALETAS
+PUNTOS_GANAR = 12 #PUNTOS NECESARIOS PARA GANAR UNA RONDA
+RADIO_CIRCULO_CENTRAL = 100 #RADIO DEL CIRCULO CENTRAL DEL JUEGO
+VELOCIDAD_INICIAL_PELOTA_X = 8 #VELOCIDAD INICIAL HORIZONTAL DE LA PELOTA
+VELOCIDAD_INICIAL_PELOTA_Y = 8 #VELOCIDAD INICIAL VERTICAL DE LA PELOTA
 
-ANCHO_PANTALLA = 1200
-ALTO_PANTALLA = 700
-PADDLE_ANCHO = 25
-PADDLE_ALTO = 76
-PUNTOS_GANAR = 12
-VIDAS_INICIALES = 2
-VIDAS_INICIALES_IA = 2
-POSICION_INICIAL_PADDLE_Y = ALTO_PANTALLA / 2 - PADDLE_ALTO / 2
-POSICION_INICIAL_JUGADOR_X = 0
-POSICION_INICIAL_IA_X = ANCHO_PANTALLA - PADDLE_ANCHO
-VELOCIDAD_INICIAL_PELOTA_X = 8
-VELOCIDAD_INICIAL_PELOTA_Y = 8
-RADIO_CIRCULO_CENTRAL = 100
+#---------------------- PUNTOS Y SETS ----------------------
 puntos_jugador = 0
 puntos_ia = 0
-vidas_jugador = VIDAS_INICIALES
-vidas_ia = VIDAS_INICIALES_IA
 sets_jugador = 0
 sets_ia = 0
 
-# --- Diccionario del Jugador ---
+#---------------------- JUGADOR ----------------------
+POSICION_INICIAL_PADDLE_Y = ALTO_PANTALLA / 2 - PADDLE_ALTO / 2
+POSICION_INICIAL_IA_X = 0
+POSICION_INICIAL_JUGADOR_X = ANCHO_PANTALLA - PADDLE_ANCHO
+
+#DICCIONARIOS QUE GUARDAN LAS PROPIEDADES DE FACTORES COMO ELJUGADOR, LA IA Y LA PELOTA
 
 jugador = {
-    "x": POSICION_INICIAL_JUGADOR_X,
-    "y": POSICION_INICIAL_PADDLE_Y, # Posición Y centrada
-    "ancho": PADDLE_ANCHO,
-    "alto": PADDLE_ALTO,
-    "velocidad": 8
-}
-
-# --- Diccionario de la IA ---
+        "x": POSICION_INICIAL_JUGADOR_X,
+        "y": POSICION_INICIAL_PADDLE_Y,
+        "ancho": PADDLE_ANCHO,
+        "alto": PADDLE_ALTO,
+        "velocidad": 8
+        }
 
 ia = {
-    "x": POSICION_INICIAL_IA_X,
-    "y": POSICION_INICIAL_PADDLE_Y,
-    "ancho": PADDLE_ANCHO,
-    "alto": PADDLE_ALTO,
-    "velocidad": 5.5
-}
+        "x": POSICION_INICIAL_IA_X,
+        "y": POSICION_INICIAL_PADDLE_Y,
+        "ancho": PADDLE_ANCHO,
+        "alto": PADDLE_ALTO,
+        "velocidad": 5.5
+        }
 
-# --- Diccionario de la Pelota ---
-
+#---------------------- PELOTA ----------------------
 pelota = {
-    "x": ANCHO_PANTALLA / 2,     # Posición X inicial (centro)
-    "y": ALTO_PANTALLA / 2,      # Posición Y inicial (centro)
-    "dx": random.choice([-VELOCIDAD_INICIAL_PELOTA_X, VELOCIDAD_INICIAL_PELOTA_X]), # Velocidad y direccion en X
-    "dy": random.choice([-VELOCIDAD_INICIAL_PELOTA_Y, VELOCIDAD_INICIAL_PELOTA_Y]), # Velocidad y direccion en Y
-    "radio": 25,                 # Radio de la pelota para dibujarla y calcular colisiones
-    "vel_x": VELOCIDAD_INICIAL_PELOTA_X,                  # Velocidad en el eje X
-    "vel_y": VELOCIDAD_INICIAL_PELOTA_Y                   # Velocidad en el eje Y
-}
+        "x": ANCHO_PANTALLA / 2,
+        "y": ALTO_PANTALLA / 2,
+        "vel_x": VELOCIDAD_INICIAL_PELOTA_X,
+        "vel_y": VELOCIDAD_INICIAL_PELOTA_Y,
+        "radio": 25
+        }
 
-#----------------------FUNCIONES
-
+#---------------------- FUNCIONES ----------------------
 def movimiento_ia():
+#MUEVE LA PALETA DE LA IA PARA SEGUIR LA PELOTA
 
     centro_ia = ia["y"] + ia["alto"] / 2
     margen_error = random.uniform(-40, 40)
-
-    # zona muerta: si la pelota está cerca, no reacciona
     if abs(pelota["y"] - centro_ia) > 10:
         if pelota["y"] + margen_error < centro_ia:
             ia["y"] -= ia["velocidad"]
         elif pelota["y"] + margen_error > centro_ia:
             ia["y"] += ia["velocidad"]
-
-    # Mantener dentro de pantalla
     ia["y"] = max(0, min(ALTO_PANTALLA - ia["alto"], ia["y"]))
 
 def movimiento_jugador():
-    # 1. Detectar Entrada
+#MUEVE LA PALETA DEL JUGADOR SEGUN LA TECLA PRESIONADA (ARRIBA O ABAJO EN ESTE CASO)
+    
     if raylib.IsKeyDown(raylib.KEY_UP):
         jugador["y"] -= jugador["velocidad"]
     elif raylib.IsKeyDown(raylib.KEY_DOWN):
         jugador["y"] += jugador["velocidad"]
-
-    # 2. Restringir (Clamp) el movimiento a los límites verticales
-    
-    if jugador["y"] < 0:
-        jugador["y"] = 0
-    elif jugador["y"] + jugador["alto"] > ALTO_PANTALLA:
-        jugador["y"] = ALTO_PANTALLA - jugador["alto"]
+    jugador["y"] = max(0, min(ALTO_PANTALLA - jugador["alto"], jugador["y"]))
 
 def movimiento_pelota():
+#ACTUALIZA EL MOVIMIENTO DE LA PELOTA
+
     pelota["x"] += pelota["vel_x"]
     pelota["y"] += pelota["vel_y"]
 
 def colision_pelota_pisos():
-    # 1. Colisión con el Techo (Borde Superior)
-    # Si la parte superior de la pelota (centro - radio) toca o cruza 0
+#DETECTA COLISIONES DE LA PELOTA CON EL TECHO Y CON EL PISO
+    
     if pelota["y"] - pelota["radio"] < 0:
-        # Reposicionar la pelota para que no se pegue al borde
-        pelota["y"] = pelota["radio"] 
-        # Invertir la dirección vertical
-        pelota["vel_y"] *= -1 
-
-    # 2. Colisión con el Piso (Borde Inferior)
-    # Si la parte inferior de la pelota (centro + radio) toca o cruza la altura máxima
+        pelota["y"] = pelota["radio"]
+        pelota["vel_y"] *= -1
     elif pelota["y"] + pelota["radio"] > ALTO_PANTALLA:
-        # Reposicionar la pelota
         pelota["y"] = ALTO_PANTALLA - pelota["radio"]
-        # Invertir la dirección vertical
         pelota["vel_y"] *= -1
 
+def colision_pelota_paleta():
+    # IA izquierda
+    if pelota["x"] - pelota["radio"] <= ia["x"] + ia["ancho"] and ia["y"] < pelota["y"] < ia["y"] + ia["alto"]:
+        pelota["vel_x"] = abs(pelota["vel_x"])
+        offset = (pelota["y"] - (ia["y"] + ia["alto"]/2)) / (ia["alto"]/2)
+        pelota["vel_y"] = offset * abs(pelota["vel_x"])
+    # Jugador derecha
+    if pelota["x"] + pelota["radio"] >= jugador["x"] and jugador["y"] < pelota["y"] < jugador["y"] + jugador["alto"]:
+        pelota["vel_x"] = -abs(pelota["vel_x"])
+        offset = (pelota["y"] - (jugador["y"] + jugador["alto"]/2)) / (jugador["alto"]/2)
+        pelota["vel_y"] = offset * abs(pelota["vel_x"])
+
+def reiniciar_pelota(): #ESTA FUNCION REINICIA LA PELOTA CADA VEZ QUE SE ANOTA UN PUNTO
+    pelota["x"] = ANCHO_PANTALLA / 2
+    pelota["y"] = ALTO_PANTALLA / 2
+    pelota["vel_x"] = random.choice([-1,1]) * VELOCIDAD_INICIAL_PELOTA_X
+    pelota["vel_y"] = random.uniform(-1.0,1.0) * VELOCIDAD_INICIAL_PELOTA_Y * 0.8
+
 def reiniciar_paddles():
+#COLOCA LAS PALETAS DEL JUGADOR Y LA IA EN SU POSICION INICIAL
+
+    jugador["y"] = ia["y"] = POSICION_INICIAL_PADDLE_Y
     jugador["x"] = POSICION_INICIAL_JUGADOR_X
     ia["x"] = POSICION_INICIAL_IA_X
-    jugador["y"] = ia["y"] = POSICION_INICIAL_PADDLE_Y 
 
-def reiniciar_pelota():
-    pelota["x"] = ANCHO_PANTALLA // 2
-    pelota["y"] = ALTO_PANTALLA // 2
+def reiniciar_puntos(): #REINICIA LOS PUNTOS DE LAS RONDAS
+    global puntos_jugador, puntos_ia
+    puntos_jugador = puntos_ia = 0
 
-    # Dirección horizontal aleatoria (izquierda o derecha)
-    pelota["vel_x"] = random.choice([-1, 1]) * VELOCIDAD_INICIAL_PELOTA_X
-
-    # Ángulo vertical aleatorio entre -75° y +75° aprox.
-    pelota["vel_y"] = random.uniform(-1.0, 1.0) * VELOCIDAD_INICIAL_PELOTA_Y * 0.8
-
-def anotacion_punto_jugador(): # Esta funcion se llama cuando se aumenta el puntaje del jugador
-    if pelota["x"] < 0:
-        global puntos_jugador
+def anotacion_punto_jugador(): #SUMA UN PUNTO AL JUGADOR SI LA PELOTA PASA LA PALETA DE LA IA. REINICIA LA PELOTA Y LAS PALANCAS.
+    global puntos_jugador
+    if pelota["x"] - pelota["radio"] < 0:
         puntos_jugador += 1
         reiniciar_pelota()
         reiniciar_paddles()
         if puntos_jugador >= PUNTOS_GANAR:
-            return ganar_ronda()
+            ganar_ronda()
 
-def anotacion_punto_ia():
-    if pelota["x"] > ANCHO_PANTALLA:
-        global puntos_ia
+def anotacion_punto_ia(): #SUMA UN PUNTO A LA IA SI LA PELOTA PASA LA PALETA DEL JUGADOR. REINICIA LA PELOTA Y LAS PALETAS.
+    global puntos_ia
+    if pelota["x"] + pelota["radio"] > ANCHO_PANTALLA:
         puntos_ia += 1
         reiniciar_pelota()
         reiniciar_paddles()
         if puntos_ia >= PUNTOS_GANAR:
-            return perder_ronda()
+            perder_ronda()
 
-def reiniciar_puntos():
-    global puntos_ia, puntos_jugador
-    puntos_ia = puntos_jugador = 0
-
-def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
-    global vidas_ia, sets_ia
-    vidas_ia -= 1
-    sets_ia += 1
-    reiniciar_puntos()
-    if vidas_ia <= 0:
-        return "Has ganado la partida"
-
-def perder_ronda(): #Esta funcion es llamada cuando un jugador pierde una ronda
-    global vidas_jugador, sets_jugador
-    vidas_jugador -= 1
+def ganar_ronda():
+    global sets_jugador
     sets_jugador += 1
     reiniciar_puntos()
-    if vidas_jugador <= 0:
-        return "Has perdido la partida"
-
-def colision_pelota_paleta(): #Detecta colisiones entre la pelota y las paletas
-
-     # --- Jugador (izquierda) ---
-    if (
-        pelota["x"] - pelota["radio"] <= jugador["x"] + jugador["ancho"] and
-        jugador["y"] < pelota["y"] < jugador["y"] + jugador["alto"]
-    ):
-        pelota["vel_x"] = abs(pelota["vel_x"])
-        # Ángulo según el punto de impacto
-        offset = (pelota["y"] - (jugador["y"] + jugador["alto"]/2)) / (jugador["alto"]/2)
-        pelota["vel_y"] = offset * abs(pelota["vel_x"])
-
-    # --- IA (derecha) ---
-    if (
-        pelota["x"] + pelota["radio"] >= ia["x"] and
-        ia["y"] < pelota["y"] < ia["y"] + ia["alto"]
-    ):
-        pelota["vel_x"] = -abs(pelota["vel_x"])
-        offset = (pelota["y"] - (ia["y"] + ia["alto"]/2)) / (ia["alto"]/2)
-        pelota["vel_y"] = offset * abs(pelota["vel_x"])
-
-def reiniciar_partida(): # Reinicia todo el estado del juego a sus valores iniciales
-    global puntos_jugador, puntos_ia,  vidas_jugador, vidas_ia
-    vidas_jugador = vidas_ia = VIDAS_INICIALES
     reiniciar_pelota()
     reiniciar_paddles()
+
+def perder_ronda():
+    global sets_ia
+    sets_ia += 1
     reiniciar_puntos()
+    reiniciar_pelota()
+    reiniciar_paddles()
+
+def reiniciar_partida():
+    global sets_jugador, sets_ia
+    sets_jugador = sets_ia = 0
+    reiniciar_puntos()
+    reiniciar_pelota()
+    reiniciar_paddles()
+
+
