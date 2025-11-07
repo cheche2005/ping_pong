@@ -30,6 +30,8 @@ puntos_jugador = 0
 puntos_ia = 0
 vidas_jugador = VIDAS_INICIALES
 vidas_ia = VIDAS_INICIALES_IA
+sets_jugador = 0
+sets_ia = 0
 
 # --- Diccionario del Jugador ---
 
@@ -142,14 +144,16 @@ def anotacion_punto_ia():
             return perder_ronda()
 
 def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
-    global vidas_ia
+    global vidas_ia, sets_ia
     vidas_ia -= 1
+    sets_ia += 1
     if vidas_ia <= 0:
         return "Has ganado la partida"
 
 def perder_ronda(): #Esta funcion es llamada cuando un jugador pierde una ronda
-    global vidas_jugador
+    global vidas_jugador, sets_jugador
     vidas_jugador -= 1
+    sets_jugador += 1
     if vidas_jugador <= 0:
         return "Has perdido la partida"
 

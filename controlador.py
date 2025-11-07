@@ -42,11 +42,14 @@ def jugar():
 
 def dibujar_elementos_controlador():
     vista.mostrar_linea_central(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA)
-   # vista.mostrar_arcos()
+    # vista.mostrar_arcos()
     vista.mostrar_paletas(modelo.ANCHO_PANTALLA, modelo.jugador["y"], jugador["ancho"], jugador["alto"])
     vista.mostrar_circulo_central(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA, )
     vista.mostrar_pelota(modelo.pelota["x"], modelo.pelota["y"], modelo.pelota["radio"])
     vista.mostrar_boton_menu()
+
+    sets_ia = " ".join(["W"] * modelo.sets_ia)
+    sets_jugador = " ".join(["W"] * modelo.sets_jugador)
 
 def main():
     """Controla el flujo general del programa."""
