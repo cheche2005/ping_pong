@@ -26,40 +26,33 @@ def pedir_opcion():
 def limpiar_pantalla():
     os.system("clear")
 
-def mostrar_pantalla_juego():
-    raylib.InitWindow(1200, 700, b"hola")
-    raylib.SetTargetFPS(1200)
+def mostrar_pantalla_juego(ancho, alto, título, fps):
+    raylib.InitWindow(ancho, alto, título)
+    raylib.SetTargetFPS(fps)
     limpiar_pantalla()
-    while not raylib.WindowShouldClose():
-       raylib.BeginDrawing()
-       raylib.ClearBackground(raylib.BLUE)
-       mostrar_linea_central()
-       mostrar_circulo_central()
-       mostrar_arcos()
-       mostrar_paletas()
-       mostrar_pelota()
-       raylib.EndDrawing()
-       mostrar_menu_juego()
-    raylib.CloseWindow()
+    
 
-def mostrar_linea_central():
-    raylib.DrawLine(600,0, 600, 700, raylib.WHITE)
+def mostrar_linea_central(ancho, alto):
+    raylib.DrawLine(ancho/2,0, ancho/2, alto, raylib.WHITE)
 
 def mostrar_arcos():
-    raylib.DrawCircleLines(0, 350, 200, raylib.WHITE)
-    raylib.DrawCircleLines(0+1200, 350, 200, raylib.WHITE)
+    raylib.DrawCircleLines(0, alto/2, radio_arcos, raylib.WHITE)
+    raylib.DrawCircleLines(ancho, alto/2, radio_arcos, raylib.WHITE)
    
-def mostrar_paletas():
-    raylib.DrawRectangle(0,350-38, 25, 76, raylib.WHITE)  
-    raylib.DrawRectangle(0+1200-25,350-38, 25, 76, raylib.WHITE)
+def mostrar_paletas(ancho, y , base_retángulo, altura_rectángulo):
+    raylib.DrawRectangle(0,(y/2) - (altura_rectángulo/2), base_rectángulo, altura_rectángulo, raylib.WHITE)  
+    raylib.DrawRectangle(ancho,(y/2) - (altura_rectángulo/2), base_rectángulo, altura_rectángulo, raylib.WHITE)  
 
-def mostrar_circulo_central():
-    raylib.DrawCircleLines(600, 350, 100, raylib.WHITE)
+def mostrar_circulo_central(ancho, alto, radio_circuilo_central):
+    raylib.DrawCircleLines(ancho/2, alto/2, radio_circulo_central, raylib.WHITE)
 
-def mostrar_pelota():
-    raylib.DrawCircle(600, 350, 25, raylib.BLACK) 
+def mostrar_pelota(x, y, radio_pelota):
+    raylib.DrawCircle(x, y, radio_pelota, raylib.BLACK) 
 
-def mostrar_menu_juego():
+def mostrar_boton_menu_():
     raylib.DrawRectangle(580-25,10, 90, 40, raylib.WHITE)
     raylib.DrawRectangleLines(580-25,10,91, 41, raylib.BLACK)
     raylib.DrawText(b"Menu", 560, 20, 30, raylib.BLACK)
+
+def mostrar_menu():
+    pass
