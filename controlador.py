@@ -31,7 +31,7 @@ def iniciar_juego():
 
 def jugar():
     # --- ACTUALIZACIÓN DE LÓGICA (modelo) ---
-    modelo.reiniciar_partida()
+   # modelo.reiniciar_partida()
     modelo.movimiento_jugador()
     modelo.movimiento_ia()
     modelo.movimiento_pelota()
@@ -44,16 +44,23 @@ def dibujar_elementos_controlador():
     vista.empezar_dibujo()
     vista.mostrar_linea_central(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA)
     vista.mostrar_arcos(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA, modelo.RADIO_CIRCULO_CENTRAL)
-    vista.mostrar_paletas(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA, jugador["ancho"], jugador["alto"])
+    
+    # Paletas en posiciones reales
+    vista.mostrar_paletas(
+        modelo.jugador["x"], modelo.jugador["y"], modelo.jugador["ancho"], modelo.jugador["alto"],
+        modelo.ia["x"], modelo.ia["y"], modelo.ia["ancho"], modelo.ia["alto"]
+    )
+    
     vista.mostrar_circulo_central(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA, modelo.RADIO_CIRCULO_CENTRAL)
     vista.mostrar_boton_menu(modelo.ANCHO_PANTALLA)
-    vista.marco_menu(modelo.ANCHO_PANTALLA)
-    vista.titulo_menu_juego(modelo.ANCHO_PANTALLA)
-    vista.opciones_menu_juego(["(h) hola", "(p) adios"], modelo.ANCHO_PANTALLA)
-   # sets_ia = " ".join(["W"] * modelo.sets_ia)
-   # sets_jugador = " ".join(["W"] * modelo.sets_jugador) 
-    vista.mostrar_pelota(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA, modelo.pelota["radio"])
-    vista.terminar_dibujo()
+   # vista.marco_menu(modelo.ANCHO_PANTALLA)
+   # vista.titulo_menu_juego(modelo.ANCHO_PANTALLA)
+   # vista.opciones_menu_juego(["(h) hola", "(p) adios"], modelo.ANCHO_PANTALLA)
+    
+    # Pelota en posición real
+    vista.mostrar_pelota(modelo.pelota["x"], modelo.pelota["y"], modelo.pelota["radio"])
+    
+    vista.terminar_dibujo()                       
 
 def main():
     """Controla el flujo general del programa."""
@@ -61,9 +68,13 @@ def main():
         opcion = mostrar_menu_principal()
 
         if opcion == "1":
-            jugar()
-            dibujar_elementos_controlador()
+            iniciar_juego()
+            modelo.reiniciar_partida()
+            while not raylib.WindowShouldClose():
+                jugar()
+                dibujar_elementos_controlador()
             if raylib.IsKeyPressed(raylib.KEY_R):
+                vista.cerrar_ventana()
                 break
         elif opcion == "q":
             vista.limpiar_pantalla()
@@ -74,7 +85,7 @@ def main():
             print("Opción inválida.")
             time.sleep(1)
             vista.limpiar_pantalla()
-    vista.cerrar_ventana()
+
 #----------------------------- EJECUCIÓN -----------------------------
 if __name__ == "__main__":
     main()

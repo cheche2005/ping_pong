@@ -14,7 +14,7 @@ import controlador
 
 
 def main():
-    controlador.mostrar_menu_principal()
+    controlador.main()
     
 
 
