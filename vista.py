@@ -92,4 +92,13 @@ def opciones_menu_juego(elementos, ancho):
       raylib.DrawText(i.encode(), int((ancho/2)-(raylib.MeasureText(i.encode(), 20)/2)),120 + 40*j, 20, raylib.WHITE)
       j = j+1
 
-#    
+#Dibuja el puntaje de la IA y del jugador principal
+
+def mostrar_puntaje(puntos_ia, puntos_jugador):
+    raylib.DrawText(f"IA: {puntos_ia}".encode(), 200, 20, 30, raylib.BLACK)    
+    raylib.DrawText(f"Jugador: {puntos_jugador}".encode(), 900, 20, 30, raylib.BLACK)
+
+#Muestra los sets ganados por cada jugador
+def mostrar_sets(sets_ia, sets_jugador):
+    raylib.DrawText(sets_ia.encode(), 205, 70, 40, raylib.BLACK)    
+    raylib.DrawText(sets_jugador.encode(), 990, 70, 40, raylib.BLACK) 
