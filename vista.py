@@ -77,18 +77,30 @@ def mostrar_boton_menu(ancho):
     raylib.DrawText(b"(r) Menu", int((ancho/2)-(raylib.MeasureText(b"(r) Menu", 20)/2)), 20, 20, raylib.BLACK)
 
 #Dibuja el título del menú del juego, solo hay que pasarle el ancho de la ventana
-def titulo_menu_juego(ancho):
+def titulo_menu_juego(ancho, resultado):
+    titulo = "RESULTADO DE LA PARTIDA"
     raylib.DrawText(b"OPCIONES", int((ancho/2)-(raylib.MeasureText(b"OPCIONES",40)/2)), 30, 40, raylib.WHITE)
+    raylib.DrawText(resultado.encode(),
+                    int((ancho / 2) - raylib.MeasureText(resultado.encode(), 30) / 2),
+                    100, 30, raylib.YELLOW)
 
 #Dibuja el marco del emnú del juego. solo hay que pasarle el ancho de la vengtana
 def marco_menu(ancho):
-    raylib.DrawRectangle(int((ancho/2) - (440/2)), 10,440, 600, raylib.BLACK)  
+    raylib.DrawRectangle(int((ancho/2) - (440/2)), 10,440, 600, raylib.BLACK) 
+    raylib.DrawRectangleLines(int((ancho / 2) - (440 / 2)), 10, 440, 300, raylib.WHITE)
 
 #DIbuja las opciones del menú del juego, solo hay que pasarle la lista de las opciones y el ancho de la ventana
-def opciones_menu_juego(elementos, ancho):
+def opciones_menu_juego(elementos, ancho, seleccion_actual=0):
+
+    opciones = ["1. Jugar otra vez", "2. Volver al menú principal", "3. Salir del juego"]
+    y_inicio = 200
+
     j = 0
     for i in elementos:
-      raylib.DrawText(i.encode(), int((ancho/2)-(raylib.MeasureText(i.encode(), 20)/2)),120 + 40*j, 20, raylib.WHITE)
-      j = j+1
+      for i, opcion in enumerate(opciones):
+        color = raylib.YELLOW if i == seleccion_actual else raylib.WHITE
+        raylib.DrawText(opcion.encode(),
+                        int((ancho / 2) - raylib.MeasureText(opcion.encode(), 25) / 2),
+                        y_inicio + (i * 60), 25, color)
 
 #    
