@@ -26,6 +26,7 @@ POSICION_INICIAL_JUGADOR_X = 0
 POSICION_INICIAL_IA_X = ANCHO_PANTALLA - PADDLE_ANCHO
 VELOCIDAD_INICIAL_PELOTA_X = 5
 VELOCIDAD_INICIAL_PELOTA_Y = 5
+RADIO_CIRCULO_CENTRAL = 100
 puntos_jugador = 0
 puntos_ia = 0
 vidas_jugador = VIDAS_INICIALES
@@ -140,7 +141,7 @@ def anotacion_punto_ia():
         puntos_ia += 1
         reiniciar_pelota()
         reiniciar_paddles()
-        if puntos_ia >= PUNTOS_GANAR
+        if puntos_ia >= PUNTOS_GANAR:
             return perder_ronda()
 
 def ganar_ronda(): #Esta funcion es llamada cuando un jugador gana una ronda
