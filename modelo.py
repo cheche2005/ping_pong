@@ -16,7 +16,12 @@ PUNTOS_GANAR = 12 #PUNTOS NECESARIOS PARA GANAR UNA RONDA
 RADIO_CIRCULO_CENTRAL = 100 #RADIO DEL CIRCULO CENTRAL DEL JUEGO
 VELOCIDAD_INICIAL_PELOTA_X = 8 #VELOCIDAD INICIAL HORIZONTAL DE LA PELOTA
 VELOCIDAD_INICIAL_PELOTA_Y = 8 #VELOCIDAD INICIAL VERTICAL DE LA PELOTA
-
+OPCIONES = [
+            "1. Jugar",
+            "2. Instrucciones",
+            "q. Salir"
+            ]
+    
 #---------------------- PUNTOS Y SETS ----------------------
 puntos_jugador = 0
 puntos_ia = 0

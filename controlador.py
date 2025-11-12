@@ -18,11 +18,7 @@ def mostrar_menu_principal():
    # """Muestra el menú principal en consola."""
     vista.limpiar_pantalla()
     vista.mostrar_titulo(" JUEGO DE PING PONG \n")
-    opciones = [
-            "1. Jugar",
-            "q. Salir"
-            ]
-    vista.mostrar_menu(opciones)
+    vista.mostrar_menu(modelo.OPCIONES)
     return vista.pedir_opcion()
 
 
