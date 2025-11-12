@@ -210,12 +210,4 @@ def main():
             vista.limpiar_pantalla()
 
 
-#----------------------------- EJECUCIÓN -----------------------------
-if __name__ == "__main__":
-    main()
-
-
-
-
-
 
