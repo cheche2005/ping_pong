@@ -16,11 +16,15 @@ PUNTOS_GANAR = 12 #PUNTOS NECESARIOS PARA GANAR UNA RONDA
 RADIO_CIRCULO_CENTRAL = 100 #RADIO DEL CIRCULO CENTRAL DEL JUEGO
 VELOCIDAD_INICIAL_PELOTA_X = 8 #VELOCIDAD INICIAL HORIZONTAL DE LA PELOTA
 VELOCIDAD_INICIAL_PELOTA_Y = 8 #VELOCIDAD INICIAL VERTICAL DE LA PELOTA
+TITULO_TUI = "JUEGO DE PING PONG"
 OPCIONES = [
             "1. Jugar",
             "2. Instrucciones",
             "q. Salir"
             ]
+INSTRUCCIONES_TITULO = "INSTRUCCIONES"
+
+INSTRUCCIONES = ["a. Presione la tecla Up Arrow (↑) para subir la paleta", "b. Presione la tecla Down Arrow (↓) para bajar la paleta ", "c. El ganador de la partida será aquel que resulte vencedor en 2 sets", "d. Para ganar un set, hay que anotar 12 puntos", "e. Cuando un participante de la partida gane un set, se reinicirán las puntuaciones", "f. Dentro de la partida, ingrese la tecla (r) para abrir el menú"]
     
 #---------------------- PUNTOS Y SETS ----------------------
 puntos_jugador = 0

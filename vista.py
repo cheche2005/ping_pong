@@ -16,7 +16,7 @@ import raylib
 
 # Muestra el título del TUI
 def mostrar_titulo(titulo):
-    print(titulo)
+    print(f"{titulo}\n")
 
 # Muestra el menú del TUI
 def mostrar_menu(items):
@@ -118,3 +118,12 @@ def mostrar_puntaje(puntos_ia, puntos_jugador):
 def mostrar_sets(sets_ia, sets_jugador):
     raylib.DrawText(str(sets_ia).encode(), 205, 70, 40, raylib.BLACK)    
     raylib.DrawText(str(sets_jugador).encode(), 990, 70, 40, raylib.BLACK) 
+
+#Función que muestra las instrucciones
+def mostrar_instrucciones(instrucciones):
+    print(*instrucciones, sep="\n\n")
+
+#Función que espera al usuario
+def esperar_usuario():
+    input("\n>>> Ingrese ENTER para continuar: ")
+    limpiar_pantalla()

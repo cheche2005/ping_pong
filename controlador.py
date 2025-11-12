@@ -17,7 +17,7 @@ import time
 def mostrar_menu_principal():
    # """Muestra el menú principal en consola."""
     vista.limpiar_pantalla()
-    vista.mostrar_titulo(" JUEGO DE PING PONG \n")
+    vista.mostrar_titulo(modelo.TITULO_TUI)
     vista.mostrar_menu(modelo.OPCIONES)
     return vista.pedir_opcion()
 
@@ -195,6 +195,11 @@ def main():
 
         if opcion == "1":
             bucle_juego()
+        elif opcion == "2":
+            vista.limpiar_pantalla()
+            vista.mostrar_titulo(modelo.INSTRUCCIONES_TITULO)
+            vista.mostrar_instrucciones(modelo.INSTRUCCIONES)
+            vista.esperar_usuario()
         elif opcion == "q":
             vista.limpiar_pantalla()
             print("Gracias por jugar!!! Vuelve pronto")
