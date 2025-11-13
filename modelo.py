@@ -14,8 +14,8 @@ PADDLE_ANCHO = 25 #EL ANCHO DE LAS PALETAS
 PADDLE_ALTO = 76 #EL ALTO DE LAS PALETAS
 PUNTOS_GANAR = 12 #PUNTOS NECESARIOS PARA GANAR UNA RONDA
 RADIO_CIRCULO_CENTRAL = 100 #RADIO DEL CIRCULO CENTRAL DEL JUEGO
-VELOCIDAD_INICIAL_PELOTA_X = 8 #VELOCIDAD INICIAL HORIZONTAL DE LA PELOTA
-VELOCIDAD_INICIAL_PELOTA_Y = 8 #VELOCIDAD INICIAL VERTICAL DE LA PELOTA
+VELOCIDAD_INICIAL_PELOTA_X = 4 #VELOCIDAD INICIAL HORIZONTAL DE LA PELOTA
+VELOCIDAD_INICIAL_PELOTA_Y = 4 #VELOCIDAD INICIAL VERTICAL DE LA PELOTA
 TITULO_TUI = "JUEGO DE PING PONG"
 OPCIONES = [
             "1. Jugar",
@@ -25,6 +25,10 @@ OPCIONES = [
 INSTRUCCIONES_TITULO = "INSTRUCCIONES"
 
 INSTRUCCIONES = ["a. Presione la tecla Up Arrow (↑) para subir la paleta", "b. Presione la tecla Down Arrow (↓) para bajar la paleta ", "c. El ganador de la partida será aquel que resulte vencedor en 2 sets", "d. Para ganar un set, hay que anotar 12 puntos", "e. Cuando un participante de la partida gane un set, se reinicirán las puntuaciones", "f. Dentro de la partida, ingrese la tecla (r) para abrir el menú"]
+
+OPCIONES_MENU_SALIR = ["1. Jugar de nuevo", "2. Salir al menú", "3. Salir del juego"]
+
+OPCIONES_MENU_PAUSA = ["1. Volver al juego", "2. Reiniciar partida", "3. Salir de la partida", "4. Salir del juego"]
     
 #---------------------- PUNTOS Y SETS ----------------------
 puntos_jugador = 0
@@ -61,7 +65,7 @@ pelota = {
         "y": ALTO_PANTALLA / 2,
         "vel_x": VELOCIDAD_INICIAL_PELOTA_X,
         "vel_y": VELOCIDAD_INICIAL_PELOTA_Y,
-        "radio": 25
+        "radio": 10
         }
 
 #---------------------- FUNCIONES ----------------------
@@ -139,8 +143,9 @@ def anotacion_punto_jugador(): #SUMA UN PUNTO AL JUGADOR SI LA PELOTA PASA LA PA
         reiniciar_paddles()
         if puntos_jugador >= PUNTOS_GANAR:
             ganar_ronda()
+#SUMA UN PUNTO A LA IA SI LA PELOTA PASA LA PALETA DEL JUGADOR. REINICIA LA PELOTA Y LAS PALETAS.
 
-def anotacion_punto_ia(): #SUMA UN PUNTO A LA IA SI LA PELOTA PASA LA PALETA DEL JUGADOR. REINICIA LA PELOTA Y LAS PALETAS.
+def anotacion_punto_ia():    
     global puntos_ia
     if pelota["x"] + pelota["radio"] > ANCHO_PANTALLA:
         puntos_ia += 1
@@ -156,6 +161,12 @@ def ganar_ronda():
     reiniciar_pelota()
     reiniciar_paddles()
 
+def resultado_partida():
+    if sets_jugador == 2 or sets_ia == 2:
+       return True
+    else:
+       return False
+
 def perder_ronda():
     global sets_ia
     sets_ia += 1
@@ -169,5 +180,19 @@ def reiniciar_partida():
     reiniciar_puntos()
     reiniciar_pelota()
     reiniciar_paddles()
+
+def detectar_opcion(selección, num_opciones):
+    if raylib.IsKeyPressed(raylib.KEY_DOWN):
+       seleccion = (seleccion + 1) % num_opciones
+    elif raylib.IsKeyPressed(raylib.KEY_UP):
+       seleccion = (seleccion - 1) % num_opciones
+    elif raylib.IsKeyPressed(raylib.KEY_ENTER):
+       return seleccion 
+
+def abrir_menu():
+     if raylib.IsKeyPressed(raylib.KEY_R):
+        return True
+     else:
+        return False
 
 

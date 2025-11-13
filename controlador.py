@@ -69,6 +69,27 @@ def dibujar_elementos_controlador():
 
     vista.terminar_dibujo()
 
+#------------------------- MENÚ DE PAUSA ---------------------------------
+
+def mostrar_menu_pausa():
+   # """Pantalla final al ganar, perder o presionar R."""
+    seleccion = 0
+    ancho = modelo.ANCHO_PANTALLA
+    seleccion = modelo.detectar_opcion(seleccion, 4) 
+ # Dibujar menú de resultado
+    vista.empezar_dibujo()
+    vista.marco_menu(ancho)
+    vista.titulo_menu_juego(ancho)
+
+# Mostrar mensaje recibido (ganado, perdido, reiniciado)
+    raylib.DrawText("no".encode(), int((ancho / 2) - raylib.MeasureText("no".encode(), 30) / 2),120, 30, raylib.YELLOW)
+
+ # Mostrar opciones del menú
+    vista.opciones_menu(modelo.OPCIONES_MENU_PAUSA, ancho, seleccion)
+    vista.terminar_dibujo()
+    return modelo.detectar_opcion(resultado, 4)
+
+
 
 #------------------------- MENÚ DE RESULTADOS ----------------------------
 
@@ -99,15 +120,12 @@ def mostrar_menu_resultado(mensaje):
         vista.titulo_menu_juego(ancho)
 
         # Mostrar mensaje recibido (ganado, perdido, reiniciado)
-        raylib.DrawText(mensaje.encode(),
-                        int((ancho / 2) - raylib.MeasureText(mensaje.encode(), 30) / 2),
-                        120, 30, raylib.YELLOW)
+        raylib.DrawText(mensaje.encode(), int((ancho / 2) - raylib.MeasureText(mensaje.encode(), 30) / 2),120, 30, raylib.YELLOW)
 
         # Mostrar opciones del menú
-        vista.opciones_menu_juego(["1. Jugar de nuevo", "2. Salir al menú", "3. Salir del juego"],
-                                  ancho, seleccion)
+        vista.opciones_menu(["1. Jugar de nuevo", "2. Salir al menú", "3. Salir del juego"],ancho, seleccion)
 
-        raylib.EndDrawing()
+        vista.terminar_dibujo()
 
 
 #--------------------- FLUJO PRINCIPAL DEL JUEGO ------------------------
@@ -116,29 +134,38 @@ def bucle_juego():
     modelo.reiniciar_partida()
     iniciar_juego()
 
-    mostrar_menu = False
+    mostrar_menu_final = False
+    mostrar_menu_pausa = False
     mensaje = ""
 
     while not raylib.WindowShouldClose():
-        # Detectar reinicio o fin de partida
-        if raylib.IsKeyPressed(raylib.KEY_R):
-            mostrar_menu = True
-            mensaje = ""
-
+        # Detecta si se abrió o no el menú
+        abrir_menu_pausa = modelo.abrir_menu()
         # Fin de partida al mejor de 3
-        elif modelo.sets_jugador >= 2:
-            mostrar_menu = True
-            mensaje = "¡Has ganado la partida!"
-        elif modelo.sets_ia >= 2:
-            mostrar_menu = True
-            mensaje = "Has perdido la partida!"
+        mostrar_menu_final = modelo.resultado_partida()
         # Ronda normal
-        elif modelo.puntos_jugador >= modelo.PUNTOS_GANAR:
+        if modelo.puntos_jugador >= modelo.PUNTOS_GANAR:
             modelo.ganar_ronda()
         elif modelo.puntos_ia >= modelo.PUNTOS_GANAR:
             modelo.perder_ronda()
-
-        if mostrar_menu:
+        
+        #Activar menú pausa
+        if abrir_menu_pausa:
+            accion = mostrar_menu_pausa()
+            if accion == "jugar":
+                modelo.reiniciar_partida()
+                mostrar_menu = False
+                mensaje = ""
+                continue
+            elif accion == "menu":
+                vista.cerrar_ventana()
+                return None
+            elif accion == "salir":
+                vista.cerrar_ventana()
+                exit()
+        
+        #Activar menú final
+        if mostrar_menu_final:
             accion = mostrar_menu_resultado(mensaje)
             if accion == "jugar":
                 modelo.reiniciar_partida()
@@ -147,7 +174,7 @@ def bucle_juego():
                 continue
             elif accion == "menu":
                 vista.cerrar_ventana()
-                return
+                return None
             elif accion == "salir":
                 vista.cerrar_ventana()
                 exit()
