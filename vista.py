@@ -97,12 +97,13 @@ def marco_menu(ancho):
 #DIbuja las opciones del menú del juego, solo hay que pasarle la lista de las opciones y el ancho de la ventana
 def opciones_menu(opciones, ancho, seleccion):
     y_inicio = 200
-    seleccion_actual = 0
-    j = 0
-    for i in opciones:
-      for i, opcion in enumerate(opciones):
-        color = raylib.YELLOW if i == seleccion_actual else raylib.WHITE
-        raylib.DrawText(opcion.encode(), int((ancho / 2) - raylib.MeasureText(opcion.encode(), 25) / 2),y_inicio + (i * 60), 25, color)
+
+    for i, opcion in enumerate(opciones):
+        color = raylib.YELLOW if i == seleccion else raylib.WHITE
+        raylib.DrawText(opcion.encode(),
+                        int((ancho / 2) - raylib.MeasureText(opcion.encode(), 25) / 2)
+                        ,y_inicio + (i * 60), 25
+                        , color)
 
 #Dibuja el puntaje de la IA y del jugador principal
 

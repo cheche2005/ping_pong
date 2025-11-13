@@ -72,7 +72,46 @@ def dibujar_elementos_controlador():
 #------------------------- MENÚ DE PAUSA ---------------------------------
 
 def mostrar_menu_pausa():
-   # """Pantalla final al ganar, perder o presionar R."""
+    """Muestra el menú de pausa durante la partida."""
+    seleccion = 0
+    ancho = modelo.ANCHO_PANTALLA
+
+    while not raylib.WindowShouldClose():
+        # Actualizar selección con teclas ↑ ↓
+        if raylib.IsKeyPressed(raylib.KEY_DOWN):
+            seleccion = (seleccion + 1) % 4
+        elif raylib.IsKeyPressed(raylib.KEY_UP):
+            seleccion = (seleccion - 1) % 4
+
+        # Si el jugador presiona ENTER, devolver la opción
+        if raylib.IsKeyPressed(raylib.KEY_ENTER):
+            if seleccion == 0:
+                return "jugar"
+            elif seleccion == 1:
+                return "reiniciar"
+            elif seleccion == 2:
+                return "menu"
+            elif seleccion == 3:
+                return "salir"
+
+        # Dibujar menú de pausa
+        vista.empezar_dibujo()
+        vista.marco_menu(ancho)
+        vista.titulo_menu_juego(ancho)
+
+        # Título del menú
+        raylib.DrawText(
+            "PAUSA".encode(),
+            int((ancho / 2) - raylib.MeasureText("PAUSA".encode(), 40) / 2),
+            120, 40, raylib.YELLOW
+        )
+
+        # Mostrar las opciones con resaltado
+        vista.opciones_menu(modelo.OPCIONES_MENU_PAUSA, ancho, seleccion)
+        vista.terminar_dibujo()
+
+"""
+   #Pantalla final al ganar, perder o presionar R.
     seleccion = 0
     ancho = modelo.ANCHO_PANTALLA
     seleccion = modelo.detectar_opcion(seleccion, 4) 
@@ -87,8 +126,8 @@ def mostrar_menu_pausa():
  # Mostrar opciones del menú
     vista.opciones_menu(modelo.OPCIONES_MENU_PAUSA, ancho, seleccion)
     vista.terminar_dibujo()
-    return modelo.detectar_opcion(resultado, 4)
-
+    return modelo.detectar_opcion(seleccion, 4)
+"""
 
 
 #------------------------- MENÚ DE RESULTADOS ----------------------------
@@ -135,7 +174,7 @@ def bucle_juego():
     iniciar_juego()
 
     mostrar_menu_final = False
-    mostrar_menu_pausa = False
+    pausa_activa = False
     mensaje = ""
 
     while not raylib.WindowShouldClose():
@@ -153,9 +192,9 @@ def bucle_juego():
         if abrir_menu_pausa:
             accion = mostrar_menu_pausa()
             if accion == "jugar":
+                continue  # reanuda la partida
+            elif accion == "reiniciar":
                 modelo.reiniciar_partida()
-                mostrar_menu = False
-                mensaje = ""
                 continue
             elif accion == "menu":
                 vista.cerrar_ventana()
@@ -163,7 +202,7 @@ def bucle_juego():
             elif accion == "salir":
                 vista.cerrar_ventana()
                 exit()
-        
+      
         #Activar menú final
         if mostrar_menu_final:
             accion = mostrar_menu_resultado(mensaje)
