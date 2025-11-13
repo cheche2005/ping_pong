@@ -14,7 +14,7 @@ import controlador
 
 
 def main():
-    controlador.main()
+    controlador.ejecutar()
     
 
 

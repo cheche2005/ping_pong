@@ -9,7 +9,7 @@ DESCRIPCIÓN: Vista. Maneja la interfaz de usuario y la presentación de datos
 
 import os
 import raylib
-
+import time
 
 #---------------------------------FUNCIONES
 
@@ -126,3 +126,9 @@ def mostrar_instrucciones(instrucciones):
 def esperar_usuario():
     input("\n>>> Ingrese ENTER para continuar: ")
     limpiar_pantalla()
+
+
+def despedirse():
+    print("Gracias por jugar!!! Vuelve pronto")
+    time.sleep(1)
+

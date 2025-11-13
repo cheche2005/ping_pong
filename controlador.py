@@ -8,9 +8,6 @@ DESCRIPCIÓN: Controlador. Maneja el flujo principal del juego (interacción ent
 import raylib
 import modelo
 import vista
-import os
-import time
-
 
 #----------------------------- FUNCIONES -----------------------------
 
@@ -229,7 +226,7 @@ if resultado:
 
 #--------------------- MENÚ PRINCIPAL DEL PROGRAMA ----------------------
 
-def main():
+def ejecutar():
     #"""Controla el flujo general del programa."""
     while True:
         opcion = mostrar_menu_principal()
@@ -244,13 +241,9 @@ def main():
             vista.esperar_usuario()
         elif opcion == "q":
             vista.limpiar_pantalla()
-            print("Gracias por jugar!!! Vuelve pronto")
-            time.sleep(1)
+            vista.despedirse()
             break
         else:
-            print("Opción inválida.")
-            time.sleep(1)
             vista.limpiar_pantalla()
-
 
 
