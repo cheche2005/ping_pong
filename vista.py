@@ -1,5 +1,5 @@
 """
-FECHA: 2025-11-7
+FECHA: 2025-11-13
 AUTOR(ES): José Prado, Daniel Caraballo, Angel Linares
 DESCRIPCIÓN: Vista. Maneja la interfaz de usuario y la presentación de datos
 """

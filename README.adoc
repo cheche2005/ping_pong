@@ -1,0 +1,44 @@
+= Proyecto de Juego Ping Pong (raylib)
+:author: José Prado, Daniel Caraballo, Angel Linares
+:date: 2025-11-12
+:doctype: article
+:encoding: utf-8
+:lang: es
+
+== Introducción
+
+Este es un juego de Ping Pong desarrollado en Python, que utiliza la librería *raylib*. El código sigue el patrón Modelo-Vista-Controlador (MVC) para separar la estructura del juego de la interfaz de usuario y el flujo principal.
+
+El objetivo del juego es que el jugador anote 12 puntos para ganar un set. El primer jugador (o la IA) en ganar 2 sets es el vencedor de la partida.
+
+== Estructura del Proyecto
+
+`controlador.py`
+Maneja el flujo principal del juego, la interacción entre el modelo y la vista, y los bucles de Raylib para el juego y los menús.
+
+`modelo.py`
+Contiene la lógica de negocio, las constantes del juego, las propiedades de la pelota/paletas (posición, velocidad), la detección de colisiones, el cálculo de puntos y el movimiento de la IA.
+
+`vista.py`
+Maneja la interfaz de usuario, incluyendo la presentación de datos en consola (menús TUI, instrucciones) y el dibujo de todos los elementos gráficos en pantalla (paletas, pelota, puntaje) usando *raylib*.
+
+== Requerimientos y Ejecución
+
+== 1. Requerimientos
+
+Necesitas tener Python y la librería `raylib` instalados. Tambien se necesita tener el entorno virtual activado para poder ejecutar el programa.
+
+[source, bash]
+----
+python3 -m venv venv 
+source venv/bin/activate
+pip3 install raylib|
+----
+
+== 2. Ejecución
+
+Para iniciar el juego, ejecuta el controlador principal:
+
+----
+python3 main.py
+----
