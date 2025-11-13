@@ -12,7 +12,7 @@ ANCHO_PANTALLA = 1200 #ESTO ES EL ANCHO DE LA PANTALLA
 ALTO_PANTALLA = 700 #EL ALTO DE LA VENTANA
 PADDLE_ANCHO = 25 #EL ANCHO DE LAS PALETAS
 PADDLE_ALTO = 76 #EL ALTO DE LAS PALETAS
-PUNTOS_GANAR = 12 #PUNTOS NECESARIOS PARA GANAR UNA RONDA
+PUNTOS_GANAR = 1 #PUNTOS NECESARIOS PARA GANAR UNA RONDA
 RADIO_CIRCULO_CENTRAL = 100 #RADIO DEL CIRCULO CENTRAL DEL JUEGO
 VELOCIDAD_INICIAL_PELOTA_X = 4 #VELOCIDAD INICIAL HORIZONTAL DE LA PELOTA
 VELOCIDAD_INICIAL_PELOTA_Y = 4 #VELOCIDAD INICIAL VERTICAL DE LA PELOTA
@@ -26,7 +26,7 @@ INSTRUCCIONES_TITULO = "INSTRUCCIONES"
 
 INSTRUCCIONES = ["a. Presione la tecla Up Arrow (↑) para subir la paleta", "b. Presione la tecla Down Arrow (↓) para bajar la paleta ", "c. El ganador de la partida será aquel que resulte vencedor en 2 sets", "d. Para ganar un set, hay que anotar 12 puntos", "e. Cuando un participante de la partida gane un set, se reinicirán las puntuaciones", "f. Dentro de la partida, ingrese la tecla (r) para abrir el menú"]
 
-OPCIONES_MENU_SALIR = ["1. Jugar de nuevo", "2. Salir al menú", "3. Salir del juego"]
+OPCIONES_MENU_RESULTADO = ["1. Jugar de nuevo", "2. Salir al menú", "3. Salir del juego"]
 
 OPCIONES_MENU_PAUSA = ["1. Volver al juego", "2. Reiniciar partida", "3. Salir de la partida", "4. Salir del juego"]
     

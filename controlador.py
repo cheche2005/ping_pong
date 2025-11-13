@@ -97,37 +97,12 @@ def mostrar_menu_pausa():
         # Dibujar menú de pausa
         vista.empezar_dibujo()
         vista.marco_menu(ancho)
-        vista.titulo_menu_juego(ancho)
-
-        # Título del menú
-        raylib.DrawText(
-            "PAUSA".encode(),
-            int((ancho / 2) - raylib.MeasureText("PAUSA".encode(), 40) / 2),
-            120, 40, raylib.YELLOW
-        )
+        vista.titulo_menu_juego("MENÚ", "PAUSA" ,ancho)
 
         # Mostrar las opciones con resaltado
         vista.opciones_menu(modelo.OPCIONES_MENU_PAUSA, ancho, seleccion)
         vista.terminar_dibujo()
 
-"""
-   #Pantalla final al ganar, perder o presionar R.
-    seleccion = 0
-    ancho = modelo.ANCHO_PANTALLA
-    seleccion = modelo.detectar_opcion(seleccion, 4) 
- # Dibujar menú de resultado
-    vista.empezar_dibujo()
-    vista.marco_menu(ancho)
-    vista.titulo_menu_juego(ancho)
-
-# Mostrar mensaje recibido (ganado, perdido, reiniciado)
-    raylib.DrawText("no".encode(), int((ancho / 2) - raylib.MeasureText("no".encode(), 30) / 2),120, 30, raylib.YELLOW)
-
- # Mostrar opciones del menú
-    vista.opciones_menu(modelo.OPCIONES_MENU_PAUSA, ancho, seleccion)
-    vista.terminar_dibujo()
-    return modelo.detectar_opcion(seleccion, 4)
-"""
 
 
 #------------------------- MENÚ DE RESULTADOS ----------------------------
@@ -152,17 +127,12 @@ def mostrar_menu_resultado(mensaje):
                 return "salir"
 
         # Dibujar menú de resultado
-        raylib.BeginDrawing()
-        raylib.ClearBackground(raylib.DARKBLUE)
-
+        vista.empezar_dibujo()
         vista.marco_menu(ancho)
-        vista.titulo_menu_juego(ancho)
-
-        # Mostrar mensaje recibido (ganado, perdido, reiniciado)
-        raylib.DrawText(mensaje.encode(), int((ancho / 2) - raylib.MeasureText(mensaje.encode(), 30) / 2),120, 30, raylib.YELLOW)
+        vista.titulo_menu_juego("FIN DE LA PARTIDA", mensaje, ancho)
 
         # Mostrar opciones del menú
-        vista.opciones_menu(["1. Jugar de nuevo", "2. Salir al menú", "3. Salir del juego"],ancho, seleccion)
+        vista.opciones_menu(modelo.OPCIONES_MENU_RESULTADO, ancho, seleccion)
 
         vista.terminar_dibujo()
 
@@ -170,6 +140,7 @@ def mostrar_menu_resultado(mensaje):
 #--------------------- FLUJO PRINCIPAL DEL JUEGO ------------------------
 
 def bucle_juego():
+    vista.limpiar_pantalla()
     modelo.reiniciar_partida()
     iniciar_juego()
 
@@ -202,7 +173,12 @@ def bucle_juego():
             elif accion == "salir":
                 vista.cerrar_ventana()
                 exit()
-      
+
+        #Mensaje según victoria o derrota
+        if modelo.sets_ia == 2:
+            mensaje = "HAS PERDIDO"
+        elif modelo.sets_jugador == 2:
+            mensaje = "HAS GANADO"
         #Activar menú final
         if mostrar_menu_final:
             accion = mostrar_menu_resultado(mensaje)
@@ -216,6 +192,7 @@ def bucle_juego():
                 return None
             elif accion == "salir":
                 vista.cerrar_ventana()
+                vista.limpiar_pantalla()
                 exit()
 
         # Juego normal
@@ -260,6 +237,7 @@ def main():
         opcion = mostrar_menu_principal()
 
         if opcion == "1":
+            vista.limpiar_pantalla()
             bucle_juego()
         elif opcion == "2":
             vista.limpiar_pantalla()
