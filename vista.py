@@ -13,6 +13,7 @@ import raylib
 
 #---------------------------------FUNCIONES
 
+corona = None
 
 # Muestra el título del TUI
 def mostrar_titulo(titulo):
@@ -105,10 +106,17 @@ def mostrar_puntaje(puntos_ia, puntos_jugador):
     raylib.DrawText(f"IA: {puntos_ia}".encode(), 200, 20, 30, raylib.BLACK)    
     raylib.DrawText(f"Jugador: {puntos_jugador}".encode(), 900, 20, 30, raylib.BLACK)
 
+def cargar_texturas():
+    global corona
+    corona = raylib.LoadTexture(b"corona.png")
+
 #Muestra los sets ganados por cada jugador
 def mostrar_sets(sets_ia, sets_jugador):
-    raylib.DrawText(str(sets_ia).encode(), 205, 70, 40, raylib.BLACK)    
-    raylib.DrawText(str(sets_jugador).encode(), 990, 70, 40, raylib.BLACK) 
+    global corona
+    for i in range(sets_ia):
+        raylib.DrawTexture(corona, 200 + i*50, 70, raylib.WHITE)
+    for i in range(sets_jugador):
+        raylib.DrawTexture(corona, 980 + i*50, 70, raylib.WHITE)
 
 #Función que muestra las instrucciones
 def mostrar_instrucciones(instrucciones):

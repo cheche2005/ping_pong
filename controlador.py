@@ -26,6 +26,14 @@ def mostrar_menu_principal():
 
 def iniciar_juego():
     vista.dimensionar_pantalla_juego(modelo.ANCHO_PANTALLA, modelo.ALTO_PANTALLA, b"", 60)
+    vista.cargar_texturas() 
+
+"""    def cerrar_ventana():
+    global corona
+    if corona:
+        raylib.UnloadTexture(corona)
+    raylib.CloseWindow()
+"""
 
 
 def jugar():
