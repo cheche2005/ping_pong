@@ -32,7 +32,7 @@ Necesitas tener Python y la librería `raylib` instalados. Tambien se necesita t
 ----
 python3 -m venv venv 
 source venv/bin/activate
-pip3 install raylib|
+pip3 install raylib
 ----
 
 == 2. Ejecución
